@@ -1,4 +1,6 @@
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /*
@@ -15,10 +17,12 @@ public class jdbc_project {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException, SQLException, Exception {
         Scanner input = new Scanner(System.in);
         Boolean loopChecker = true;
         int userSelection = 0;
+        Database database = new Database();
+
         while (loopChecker) {
             System.out.println("Please select an option:");
             System.out.println("1. Show all writing groups");
@@ -34,29 +38,67 @@ public class jdbc_project {
 
             userSelection = input.nextInt();
             if (userSelection == 1) {
-
+                ArrayList writingGroups = database.showAllWritingGroups();
+                for (int i = 0; i < writingGroups.size(); i++) {
+                    Object groupNames = writingGroups.get(i);
+                    String groupNamesConverted = groupNames.toString();
+                    System.out.println(groupNamesConverted);
+                }
             } else if (userSelection == 2) {
 
             } else if (userSelection == 3) {
-
+                ArrayList publisherNames = database.showAllPublishers();
+                for (int i = 0; i < publisherNames.size(); i++) {
+                    Object names = publisherNames.get(i);
+                    String namesConverted = names.toString();
+                    System.out.println(namesConverted);
+                }
             } else if (userSelection == 4) {
 
             } else if (userSelection == 5) {
-
+                ArrayList booktitles = database.showAllBooks();
+                for (int i = 0; i < booktitles.size(); i++) {
+                    Object titles = booktitles.get(i);
+                    String titlesConverted = titles.toString();
+                    System.out.println(titlesConverted);
+                }
             } else if (userSelection == 6) {
-                
+
             } else if (userSelection == 7) {
                 System.out.println("What is the name of the book you'd like to insert?");
                 String bookToInsert = input.nextLine();
-                
+
+                System.out.println("What is the year that the book was published?");
+                int yearPublished = input.nextInt();
+
+                System.out.println("How many pages are in the book?");
+                int numOfPages = input.nextInt();
+
+                database.insertBook(bookToInsert, yearPublished, numOfPages);
+
             } else if (userSelection == 8) {
                 System.out.println("What is the name of the new publisher?");
                 String newPublisher = input.nextLine();
-                
+
+                System.out.println("What year was it published?");
+                int year = input.nextInt();
+
+                System.out.println("Number of pages in the book?");
+                int numberOfPages = input.nextInt();
+
+                System.out.println("Publisher name?");
+                String publisherName = input.nextLine();
+
+                System.out.println("Writing group name?");
+                String writingGroupName = input.nextLine();
+
+                database.insertPublisher(newPublisher, year, numberOfPages, publisherName, writingGroupName);
+
             } else if (userSelection == 9) {
                 System.out.println("Which book would you like to remove?");
                 String bookToRemove = input.nextLine();
-                
+                database.removeBook(bookToRemove);
+
             } else if (userSelection == 10) {
                 loopChecker = false;
             }
