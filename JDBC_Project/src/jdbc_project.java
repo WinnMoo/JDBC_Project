@@ -95,7 +95,12 @@ public class jdbc_project {
                 System.out.println("Writing group name?");
                 String writingGroupName = input.nextLine();
 
+                System.out.println("What is the name of the publisher being bought out?");
+                String oldPublisher = input.nextLine();
+                       
                 database.insertPublisher(newPublisher, publisherAddress, publisherPhone, writingGroupName);
+                
+                database.updateBookPublisher(oldPublisher, newPublisher);
 
             } else if (userSelection == 9) {
                 System.out.println("Which book would you like to remove?");
