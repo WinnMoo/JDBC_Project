@@ -121,9 +121,9 @@ public class Database {
         pstmt.close();
     }
     
-    public void updateBookPublisher(String oldPublisher, String newPublisher){
+    public void updateBookPublisher(String oldPublisher, String newPublisher) throws SQLException{
         String SQL = "UPDATE Book SET PublisherName = ? WHERE PublisherName = ?";
-        PreparedStatment pstmt = conn.prepareStatement(SQL);
+        PreparedStatement pstmt = conn.prepareStatement(SQL);
         pstmt.setString(1, oldPublisher);
         pstmt.setString(2, newPublisher);
         pstmt.executeUpdate();

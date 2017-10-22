@@ -45,7 +45,8 @@ public class jdbc_project {
                     System.out.println(groupNamesConverted);
                 }
             } else if (userSelection == 2) {
-
+                database.showAllGroupsData();
+                
             } else if (userSelection == 3) {
                 ArrayList publisherNames = database.showAllPublishers();
                 for (int i = 0; i < publisherNames.size(); i++) {
@@ -54,7 +55,8 @@ public class jdbc_project {
                     System.out.println(namesConverted);
                 }
             } else if (userSelection == 4) {
-
+                database.showAllPublishersData();
+                
             } else if (userSelection == 5) {
                 ArrayList booktitles = database.showAllBooks();
                 for (int i = 0; i < booktitles.size(); i++) {
@@ -63,7 +65,8 @@ public class jdbc_project {
                     System.out.println(titlesConverted);
                 }
             } else if (userSelection == 6) {
-
+                database.showAllBooksData();
+                
             } else if (userSelection == 7) {
                 System.out.println("What is the name of the book you'd like to insert?");
                 String bookToInsert = input.nextLine();
@@ -99,7 +102,6 @@ public class jdbc_project {
                 String oldPublisher = input.nextLine();
                        
                 database.insertPublisher(newPublisher, publisherAddress, publisherPhone, writingGroupName);
-                
                 database.updateBookPublisher(oldPublisher, newPublisher);
 
             } else if (userSelection == 9) {
