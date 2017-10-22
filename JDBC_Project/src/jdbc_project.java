@@ -73,26 +73,29 @@ public class jdbc_project {
 
                 System.out.println("How many pages are in the book?");
                 int numOfPages = input.nextInt();
-
-                database.insertBook(bookToInsert, yearPublished, numOfPages);
+                
+                System.out.println("Name of publisher?");
+                String publisherName = input.nextLine();
+                
+                System.out.println("Name of writing group?");
+                String writingGroupName = input.nextLine();
+                
+                database.insertBook(bookToInsert, yearPublished, numOfPages, publisherName, writingGroupName);
 
             } else if (userSelection == 8) {
                 System.out.println("What is the name of the new publisher?");
                 String newPublisher = input.nextLine();
 
-                System.out.println("What year was it published?");
-                int year = input.nextInt();
+                System.out.println("What is the publisher's address?");
+                String publisherAddress = input.nextLine();
 
-                System.out.println("Number of pages in the book?");
-                int numberOfPages = input.nextInt();
-
-                System.out.println("Publisher name?");
-                String publisherName = input.nextLine();
+                System.out.println("What is the publisher phone number?");
+                String publisherPhone = input.nextLine();
 
                 System.out.println("Writing group name?");
                 String writingGroupName = input.nextLine();
 
-                database.insertPublisher(newPublisher, year, numberOfPages, publisherName, writingGroupName);
+                database.insertPublisher(newPublisher, publisherAddress, publisherPhone, writingGroupName);
 
             } else if (userSelection == 9) {
                 System.out.println("Which book would you like to remove?");
