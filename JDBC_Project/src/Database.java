@@ -10,19 +10,23 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 /**
  *
  * @author Winn
  */
 public class Database {
+
     Connection conn; //once a connection is established it stays
     //as long as the code that created this
     //instance does not exit
 
     Statement stat;  //stat can be reused in every operation
     String query;
+
     public Database() throws IOException, ClassNotFoundException,
             SQLException, Exception {
         try {
@@ -33,71 +37,111 @@ public class Database {
         //In the string to getConnection you may replace "MP3Player"      
         try {
             //conn needs to be updated for the JDBC url for books/publishers instead of the one that's in it now
-            conn = DriverManager.getConnection("jdbc:derby://localhost/MP3Player;create=true;user=APP;pass=APP");
+            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/JDBC_Project;create=true");
             stat = conn.createStatement();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
+
     
-    public ArrayList<String> showAllWritingGroups() throws SQLException{
+    public ArrayList<String> showAllWritingGroups() throws SQLException {
         ArrayList writingGroups = new ArrayList();
         String getWritingGroup = "SELECT GroupName FROM WritingGroups";
         PreparedStatement statement = conn.prepareStatement(getWritingGroup);
 
         ResultSet resultSet = statement.executeQuery();
-        while(resultSet.next()){
+        while (resultSet.next()) {
             writingGroups.add(resultSet.getString(1));
-            
+
         }
         return writingGroups;
     }
-    
-    
-    public void showAllGroupsData(){
-        
+
+    public void showAllGroupsData() throws SQLException {
+        String getWritingGroup = "SELECT * FROM WritingGroups";
+
+        PreparedStatement statement = conn.prepareStatement(getWritingGroup);
+        ResultSet resultset = statement.executeQuery(query);
+
+        ResultSetMetaData rsmd = resultset.getMetaData();
+        int columnsNumber = rsmd.getColumnCount();
+
+        // Iterate through the data in the result set and display it. 
+        while (resultset.next()) {
+            //Print one row          
+            for (int i = 1; i <= columnsNumber; i++) {
+                System.out.print(resultset.getString(i) + " "); //Print one element of a row
+            }
+            System.out.println();//Move to the next line to print the next row.           
+        }
     }
-    
-    
-    public ArrayList<String> showAllPublishers() throws SQLException{
+
+    public ArrayList<String> showAllPublishers() throws SQLException {
         ArrayList publishersName = new ArrayList();
         String getPublisherName = "SELECT GroupName FROM WritingGroups";
         PreparedStatement statement = conn.prepareStatement(getPublisherName);
 
         ResultSet resultSet = statement.executeQuery();
-        while(resultSet.next()){
+        while (resultSet.next()) {
             publishersName.add(resultSet.getString(1));
-            
+
         }
         return publishersName;
     }
-    
-    
-    public void showAllPublishersData(){
-        
+
+    public void showAllPublishersData() throws SQLException {
+        String getPublisher = "SELECT * FROM Publisher";
+
+        PreparedStatement statement = conn.prepareStatement(getPublisher);
+        ResultSet resultset = statement.executeQuery(query);
+
+        ResultSetMetaData rsmd = resultset.getMetaData();
+        int columnsNumber = rsmd.getColumnCount();
+
+        // Iterate through the data in the result set and display it. 
+        while (resultset.next()) {
+            //Print one row          
+            for (int i = 1; i <= columnsNumber; i++) {
+                System.out.print(resultset.getString(i) + " "); //Print one element of a row
+            }
+            System.out.println();//Move to the next line to print the next row.           
+        }
     }
-    
-    
-    public ArrayList<String> showAllBooks() throws SQLException{
+
+    public ArrayList<String> showAllBooks() throws SQLException {
         ArrayList titles = new ArrayList();
         String getTitle = "SELECT bookTitle FROM Book";
         PreparedStatement statement = conn.prepareStatement(getTitle);
 
         ResultSet resultSet = statement.executeQuery();
-        while(resultSet.next()){
+        while (resultSet.next()) {
             titles.add(resultSet.getString(1));
-            
+
         }
         return titles;
     }
-    
-    
-    public void showAllBooksData(){
-        
+
+    public void showAllBooksData() throws SQLException {
+        String getBookData = "SELECT * FROM Book";
+
+        PreparedStatement statement = conn.prepareStatement(getBookData);
+        ResultSet resultset = statement.executeQuery(query);
+
+        ResultSetMetaData rsmd = resultset.getMetaData();
+        int columnsNumber = rsmd.getColumnCount();
+
+        // Iterate through the data in the result set and display it. 
+        while (resultset.next()) {
+            //Print one row          
+            for (int i = 1; i <= columnsNumber; i++) {
+                System.out.print(resultset.getString(i) + " "); //Print one element of a row
+            }
+            System.out.println();//Move to the next line to print the next row.           
+        }
     }
-    
-    
-    public void insertBook(String bookToInsert, int yearPublished, int numOfPages, String publisherName, String writingGroupName) throws SQLException{
+
+    public void insertBook(String bookToInsert, int yearPublished, int numOfPages, String publisherName, String writingGroupName) throws SQLException {
         String SQL = "INSERT INTO Book VALUES (?, ?, ?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(SQL);
         pstmt.setString(1, bookToInsert);
@@ -108,9 +152,8 @@ public class Database {
         pstmt.executeUpdate();
         pstmt.close();
     }
-    
-    
-    public void insertPublisher(String publisherName, String publisherAddress, String publisherPhone, String publisherEmail) throws SQLException{
+
+    public void insertPublisher(String publisherName, String publisherAddress, String publisherPhone, String publisherEmail) throws SQLException {
         String SQL = "INSERT INTO Publisher VALUES (?, ?, ?, ?)";
         PreparedStatement pstmt = conn.prepareStatement(SQL);
         pstmt.setString(1, publisherName);
@@ -120,8 +163,8 @@ public class Database {
         pstmt.executeUpdate();
         pstmt.close();
     }
-    
-    public void updateBookPublisher(String oldPublisher, String newPublisher) throws SQLException{
+
+    public void updateBookPublisher(String oldPublisher, String newPublisher) throws SQLException {
         String SQL = "UPDATE Book SET PublisherName = ? WHERE PublisherName = ?";
         PreparedStatement pstmt = conn.prepareStatement(SQL);
         pstmt.setString(1, oldPublisher);
@@ -129,9 +172,8 @@ public class Database {
         pstmt.executeUpdate();
         pstmt.close();
     }
-    
-    
-    public void removeBook(String bookToRemove) throws SQLException{
+
+    public void removeBook(String bookToRemove) throws SQLException {
         String SQL = "DELETE FROM Book WHERE BookTitle = ?";
         PreparedStatement pstmt = conn.prepareStatement(SQL);
         pstmt.setString(1, bookToRemove);
