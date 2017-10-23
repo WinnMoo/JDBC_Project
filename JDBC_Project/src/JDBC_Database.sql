@@ -47,4 +47,4 @@ insert into Book(BookTitle,YearPublished,NumberPages,PublisherName,GroupName) va
 	('The Hypocracy of Fruit', '1999', '50', 'QwertySwag Publishings', 'Doge Think'),
 	('The Irony of Pizza', '2015', '206', 'QwertySwag Publishings', 'Doge Think'),
 	('The Duality of Man', '2014', '207', 'QwertySwag Publishings', 'Doge Think'),
-	('Fifty Shades of Black)', '2013', 
+	('Fifty Shades of Black)', '2013', '295', 'Kick Aff Publisher', 'Team Rocket');
