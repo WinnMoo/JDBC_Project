@@ -6,12 +6,12 @@
 import java.sql.Statement;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 /**
@@ -37,17 +37,16 @@ public class Database {
         //In the string to getConnection you may replace "MP3Player"      
         try {
             //conn needs to be updated for the JDBC url for books/publishers instead of the one that's in it now
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/JDBC_Project;create=true");
+            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/JDBC_Project;create=true;user=APP;pass=APP");
             stat = conn.createStatement();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
 
-    
     public ArrayList<String> showAllWritingGroups() throws SQLException {
         ArrayList writingGroups = new ArrayList();
-        String getWritingGroup = "SELECT GroupName FROM WritingGroups";
+        String getWritingGroup = "SELECT GroupName FROM WritingGroup";
         PreparedStatement statement = conn.prepareStatement(getWritingGroup);
 
         ResultSet resultSet = statement.executeQuery();
@@ -59,10 +58,10 @@ public class Database {
     }
 
     public void showAllGroupsData() throws SQLException {
-        String getWritingGroup = "SELECT * FROM WritingGroups";
+        String getWritingGroup = "SELECT * FROM WritingGroup";
 
         PreparedStatement statement = conn.prepareStatement(getWritingGroup);
-        ResultSet resultset = statement.executeQuery(query);
+        ResultSet resultset = statement.executeQuery();
 
         ResultSetMetaData rsmd = resultset.getMetaData();
         int columnsNumber = rsmd.getColumnCount();
@@ -79,7 +78,7 @@ public class Database {
 
     public ArrayList<String> showAllPublishers() throws SQLException {
         ArrayList publishersName = new ArrayList();
-        String getPublisherName = "SELECT GroupName FROM WritingGroups";
+        String getPublisherName = "SELECT PublisherName FROM Publisher";
         PreparedStatement statement = conn.prepareStatement(getPublisherName);
 
         ResultSet resultSet = statement.executeQuery();
@@ -94,7 +93,7 @@ public class Database {
         String getPublisher = "SELECT * FROM Publisher";
 
         PreparedStatement statement = conn.prepareStatement(getPublisher);
-        ResultSet resultset = statement.executeQuery(query);
+        ResultSet resultset = statement.executeQuery();
 
         ResultSetMetaData rsmd = resultset.getMetaData();
         int columnsNumber = rsmd.getColumnCount();
@@ -126,7 +125,7 @@ public class Database {
         String getBookData = "SELECT * FROM Book";
 
         PreparedStatement statement = conn.prepareStatement(getBookData);
-        ResultSet resultset = statement.executeQuery(query);
+        ResultSet resultset = statement.executeQuery();
 
         ResultSetMetaData rsmd = resultset.getMetaData();
         int columnsNumber = rsmd.getColumnCount();
@@ -149,7 +148,11 @@ public class Database {
         pstmt.setInt(3, numOfPages);
         pstmt.setString(4, publisherName);
         pstmt.setString(5, writingGroupName);
-        pstmt.executeUpdate();
+        try {
+            pstmt.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("GroupName or PublisherName is incorrect, please try again");
+        }
         pstmt.close();
     }
 
@@ -161,14 +164,15 @@ public class Database {
         pstmt.setString(3, publisherPhone);
         pstmt.setString(4, publisherEmail);
         pstmt.executeUpdate();
+        
         pstmt.close();
     }
 
     public void updateBookPublisher(String oldPublisher, String newPublisher) throws SQLException {
         String SQL = "UPDATE Book SET PublisherName = ? WHERE PublisherName = ?";
         PreparedStatement pstmt = conn.prepareStatement(SQL);
-        pstmt.setString(1, oldPublisher);
-        pstmt.setString(2, newPublisher);
+        pstmt.setString(1, newPublisher);
+        pstmt.setString(2, oldPublisher);
         pstmt.executeUpdate();
         pstmt.close();
     }
