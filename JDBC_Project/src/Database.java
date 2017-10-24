@@ -150,9 +150,11 @@ public class Database {
         pstmt.setString(5, writingGroupName);
         try {
             pstmt.executeUpdate();
+           
         } catch (SQLIntegrityConstraintViolationException e) {
             System.out.println("GroupName or PublisherName is incorrect, please try again");
         }
+
         pstmt.close();
     }
 
@@ -163,13 +165,12 @@ public class Database {
         pstmt.setString(2, publisherAddress);
         pstmt.setString(3, publisherPhone);
         pstmt.setString(4, publisherEmail);
-         try {
+        try {
             pstmt.executeUpdate();
         } catch (SQLIntegrityConstraintViolationException e) {
             System.out.println("That publisher already exists, please enter in a different publisher");
         }
 
-        
         pstmt.close();
     }
 
@@ -178,7 +179,12 @@ public class Database {
         PreparedStatement pstmt = conn.prepareStatement(SQL);
         pstmt.setString(1, newPublisher);
         pstmt.setString(2, oldPublisher);
-        pstmt.executeUpdate();
+        int checker = pstmt.executeUpdate();
+        if(checker == 0){
+            System.out.println("The publisher specified does not exist");
+        }else{
+            System.out.println("The publisher was successfully updated");
+        }
         pstmt.close();
     }
 
@@ -186,7 +192,12 @@ public class Database {
         String SQL = "DELETE FROM Book WHERE BookTitle = ?";
         PreparedStatement pstmt = conn.prepareStatement(SQL);
         pstmt.setString(1, bookToRemove);
-        pstmt.executeUpdate();
+        int checker = pstmt.executeUpdate();
+        if(checker == 0){
+            System.out.println("Removal unsuccessful");
+        }else{
+            System.out.println("Removal successful");
+        }
         pstmt.close();
     }
 }

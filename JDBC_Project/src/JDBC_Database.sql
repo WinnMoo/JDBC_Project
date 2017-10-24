@@ -18,11 +18,11 @@ CREATE TABLE Book (
 BookTitle varchar(50) NOT NULL,
 YearPublished varchar(5) NOT NULL,
 NumberPages varchar(10) NOT NULL,
-BookPublisherName varchar(30) NOT NULL,
+PublisherName varchar(30) NOT NULL,
 GroupName varchar(50) NOT NULL,
 CONSTRAINT Book_PK PRIMARY KEY (GroupName, BookTitle),
 CONSTRAINT Book_FK_1 FOREIGN KEY (GroupName) REFERENCES WritingGroup (GroupName),
-CONSTRAINT Book_FK_2 FOREIGN KEY (BookPublisherName) REFERENCES Publisher (PublisherName)
+CONSTRAINT Book_FK_2 FOREIGN KEY (PublisherName) REFERENCES Publisher (PublisherName)
 );
 
 
@@ -48,3 +48,4 @@ insert into Book(BookTitle,YearPublished,NumberPages,PublisherName,GroupName) va
 	('The Irony of Pizza', '2015', '206', 'QwertySwag Publishings', 'Doge Think'),
 	('The Duality of Man', '2014', '207', 'QwertySwag Publishings', 'Doge Think'),
 	('Fifty Shades of Black', '2013', '295', 'Kick Aff Publisher', 'Team Rocket');
+
