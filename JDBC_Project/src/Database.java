@@ -163,7 +163,12 @@ public class Database {
         pstmt.setString(2, publisherAddress);
         pstmt.setString(3, publisherPhone);
         pstmt.setString(4, publisherEmail);
-        pstmt.executeUpdate();
+         try {
+            pstmt.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("That publisher already exists, please enter in a different publisher");
+        }
+
         
         pstmt.close();
     }

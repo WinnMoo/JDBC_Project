@@ -95,13 +95,10 @@ public class jdbc_project {
                 String newPublisher = input.nextLine();
                 System.out.println("What is the publisher's address?");
                 String publisherAddress = input.nextLine();
-                input.nextLine();
                 System.out.println("What is the publisher phone number?");
                 String publisherPhone = input.nextLine();
-                input.nextLine();
                 System.out.println("Publisher Email?");
                 String publisherEmail = input.nextLine();
-                input.nextLine();
                 System.out.println("What is the name of the publisher being bought out?");
                 String oldPublisher = input.nextLine();
 
@@ -121,11 +118,8 @@ public class jdbc_project {
             } catch (NumberFormatException e) {
                 System.out.println("Please input a number");
             }
-
-            
-
         }
-
+        
     }
 
 }
