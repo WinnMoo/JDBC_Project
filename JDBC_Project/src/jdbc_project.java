@@ -49,7 +49,9 @@ public class jdbc_project {
                     System.out.println(groupNamesConverted);
                 }
             } else if (userSelectionConverted == 2) {
-                database.showAllGroupsData();
+                System.out.println("Please enter the name of the group");
+                String groupWeWant = input.nextLine();
+                database.showAllGroupsData(groupWeWant);
 
             } else if (userSelectionConverted == 3) {
                 ArrayList publisherNames = database.showAllPublishers();
@@ -59,7 +61,9 @@ public class jdbc_project {
                     System.out.println(namesConverted);
                 }
             } else if (userSelectionConverted == 4) {
-                database.showAllPublishersData();
+                System.out.println("Enter the name of the publisher");
+                String publisherWeWant = input.nextLine();
+                database.showAllPublishersData(publisherWeWant);
 
             } else if (userSelectionConverted == 5) {
                 ArrayList booktitles = database.showAllBooks();
@@ -69,7 +73,9 @@ public class jdbc_project {
                     System.out.println(titlesConverted);
                 }
             } else if (userSelectionConverted == 6) {
-                database.showAllBooksData();
+                System.out.println("Enter the name of the book");
+                String bookWeWant = input.nextLine();
+                database.showAllBooksData(bookWeWant);
 
             } else if (userSelectionConverted == 7) {
                 System.out.println("What is the name of the book you'd like to insert?");

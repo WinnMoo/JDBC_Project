@@ -57,15 +57,19 @@ public class Database {
         return writingGroups;
     }
 
-    public void showAllGroupsData() throws SQLException {
-        String getWritingGroup = "SELECT * FROM WritingGroup";
-
+    public void showAllGroupsData(String bookWeWant) throws SQLException {
+        String getWritingGroup = "SELECT * FROM WritingGroup WHERE GroupName = ?";
+       
         PreparedStatement statement = conn.prepareStatement(getWritingGroup);
+        statement.setString(1, bookWeWant);
         ResultSet resultset = statement.executeQuery();
 
         ResultSetMetaData rsmd = resultset.getMetaData();
         int columnsNumber = rsmd.getColumnCount();
-
+        
+        if(resultset.next() != true){
+            System.out.println("Writing Group doesn't exist");
+        }
         // Iterate through the data in the result set and display it. 
         while (resultset.next()) {
             //Print one row          
@@ -89,15 +93,20 @@ public class Database {
         return publishersName;
     }
 
-    public void showAllPublishersData() throws SQLException {
-        String getPublisher = "SELECT * FROM Publisher";
+    public void showAllPublishersData(String publisherWeWant) throws SQLException {
+        String getPublisher = "SELECT * FROM Publisher WHERE PublisherName = ?";
 
         PreparedStatement statement = conn.prepareStatement(getPublisher);
+        statement.setString(1, publisherWeWant);
+        
         ResultSet resultset = statement.executeQuery();
 
         ResultSetMetaData rsmd = resultset.getMetaData();
         int columnsNumber = rsmd.getColumnCount();
 
+        if(resultset.next() != true){
+            System.out.println("Publisher doesn't exist");
+        }
         // Iterate through the data in the result set and display it. 
         while (resultset.next()) {
             //Print one row          
@@ -121,16 +130,20 @@ public class Database {
         return titles;
     }
 
-    public void showAllBooksData() throws SQLException {
-        String getBookData = "SELECT * FROM Book";
-
+    public void showAllBooksData(String bookWeWant) throws SQLException {
+        String getBookData = "SELECT * FROM Book WHERE BookTitle = ?";
+        
         PreparedStatement statement = conn.prepareStatement(getBookData);
+        statement.setString(1, bookWeWant);
         ResultSet resultset = statement.executeQuery();
 
         ResultSetMetaData rsmd = resultset.getMetaData();
         int columnsNumber = rsmd.getColumnCount();
 
         // Iterate through the data in the result set and display it. 
+        if(resultset.next() != true){
+            System.out.println("Book doesn't exist");
+        }
         while (resultset.next()) {
             //Print one row          
             for (int i = 1; i <= columnsNumber; i++) {
